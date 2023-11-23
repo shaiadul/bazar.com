@@ -3,6 +3,7 @@
 import { useCart } from "@/app/context/cart";
 import Link from "next/link";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const Card = ({ product }) => {
   const { title, price, image } = product;
@@ -28,6 +29,13 @@ const Card = ({ product }) => {
     setTimeout(() => {
       const updatedCartItems = [...cartItems];
       localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      // SweetAlert notification
+      Swal.fire({
+        icon: "success",
+        title: "Item Added to Cart!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }, 0);
   };
 
