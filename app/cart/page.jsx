@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/cart";
+import Swal from "sweetalert2";
 
 const ShoppingCart = () => {
   const { cartItems, setCartItems } = useCart();
@@ -29,6 +30,13 @@ const ShoppingCart = () => {
     setCartItems((prevCartItems) =>
       prevCartItems.filter((item) => item.id !== productId)
     );
+    // SweetAlert notification for item deletion
+    Swal.fire({
+      icon: "error",
+      title: "Item Removed from Cart!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const calculateDeliveryCharge = () => {
