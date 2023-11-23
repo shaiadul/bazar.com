@@ -7,14 +7,13 @@ const ShoppingCart = () => {
   const [deliveryLocation, setDeliveryLocation] = useState("insideDhaka");
 
   useEffect(() => {
-    const storedCartItems =
-      JSON.parse(localStorage.getItem("cartItems")) || [];
-    setCartItems(storedCartItems);
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
+
+  useEffect(() => {
+    const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    setCartItems(storedCartItems);
+  }, []);
 
   const handleQuantityChange = (productId, newQuantity) => {
     newQuantity = Math.max(newQuantity, 1);
@@ -35,7 +34,7 @@ const ShoppingCart = () => {
   const calculateDeliveryCharge = () => {
     const deliveryCharges = {
       insideDhaka: 0, // inside Dhaka
-      outsideDhaka: 3.00, //outside Dhaka
+      outsideDhaka: 3.0, //outside Dhaka
     };
 
     return deliveryCharges[deliveryLocation];
@@ -78,7 +77,9 @@ const ShoppingCart = () => {
                 <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                   <div className="flex items-center border-gray-100">
                     <span
-                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                      onClick={() =>
+                        handleQuantityChange(item.id, item.quantity - 1)
+                      }
                       className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
                     >
                       -
@@ -91,7 +92,9 @@ const ShoppingCart = () => {
                       readOnly
                     />
                     <span
-                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                      onClick={() =>
+                        handleQuantityChange(item.id, item.quantity + 1)
+                      }
                       className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
                     >
                       +
@@ -108,7 +111,11 @@ const ShoppingCart = () => {
                       className="h-6 w-6 cursor-pointer text-red-600 hover:text-red-400 duration-300"
                       onClick={() => handleRemoveItem(item.id)}
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -138,14 +145,17 @@ const ShoppingCart = () => {
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Delivery Charges</p>
-            <p className="text-gray-700">${calculateDeliveryCharge().toFixed(2)}</p>
+            <p className="text-gray-700">
+              ${calculateDeliveryCharge().toFixed(2)}
+            </p>
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div>
               <p className="mb-1 text-lg font-bold">
-                ${(
+                $
+                {(
                   calculateTotalPrice() +
                   calculateDeliveryCharge() +
                   2.0
