@@ -1,4 +1,4 @@
-Live Site Link : https://bazar-com.vercel.app/
+Live Site Link : https://bazar-com-shaiadul.vercel.app/
 
 ### OR
 
