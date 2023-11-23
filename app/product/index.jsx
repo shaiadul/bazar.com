@@ -31,7 +31,6 @@ const Products = () => {
       // If already sorting by the selected criteria, toggle the order
       setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
     } else {
-      // If sorting by a new criteria, set it to ascending order
       setSortBy(criteria);
       setSortOrder("asc");
     }
@@ -65,8 +64,8 @@ const Products = () => {
     : null;
 
   return (
-    <section className="container mx-auto my-5">
-      <h1 className="font-serif">Fake Shop API Product Page</h1>
+    <section className="container mx-auto py-5 ">
+      <h1 className="font-serif">Fake Shop Product Page</h1>
       <div className="flex flex-col lg:flex-row items-center justify-between my-5 text-teal-600 text-lg">
         <div className="flex flex-wrap lg:flex-nowrap space-y-2 lg:space-y-0 lg:space-x-4">
           <button
@@ -119,7 +118,7 @@ const Products = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="container mx-auto grid grid-cols-4 justify-center items-center gap-5 my-10">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 justify-center items-center gap-5 my-10">
           {filteredData &&
             filteredData.map((product) => (
               <Card key={product.id} product={product} />

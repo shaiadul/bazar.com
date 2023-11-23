@@ -1,10 +1,9 @@
-import Image from 'next/image'
-import Products from './product'
+import Products from "./product";
 
 export default function Home() {
   return (
-    <main className="">
-     <Products />
+    <main className="bg-gray-100">
+      <Products />
     </main>
-  )
+  );
 }

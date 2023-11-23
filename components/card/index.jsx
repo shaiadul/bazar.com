@@ -1,11 +1,38 @@
 "use client";
+
+import { useCart } from "@/app/context/cart";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const Card = ({ product }) => {
-  const { title, price, description, category, image } = product;
+  const { title, price, image } = product;
   const [isFavorite, setIsFavorite] = useState(false);
+  const { cartItems, setCartItems } = useCart();
+
+  const addToCart = () => {
+    const productIndex = cartItems.findIndex((item) => item.id === product.id);
+
+    if (productIndex !== -1) {
+      setCartItems((prevCartItems) => {
+        const updatedCartItems = [...prevCartItems];
+        updatedCartItems[productIndex].quantity += 1;
+        return updatedCartItems;
+      });
+    } else {
+      setCartItems((prevCartItems) => [
+        ...prevCartItems,
+        { ...product, quantity: 1 },
+      ]);
+    }
+
+    setTimeout(() => {
+      const updatedCartItems = [...cartItems];
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    }, 0);
+  };
+
   return (
-    <div className="w-full bg-white drop-shadow-md rounded-lg overflow-hidden  border-4 border-solid border-teal-200">
+    <div className="w-full bg-white drop-shadow-md rounded-lg overflow-hidden border border-solid border-gray-200 ">
       <img
         className="object-cover h-40 rounded-tl-lg rounded-tr-lg w-fill h-48 mx-auto my-5 hover:scale-110 duration-500"
         src={image}
@@ -28,12 +55,13 @@ const Card = ({ product }) => {
           <span className="text-sm text-red-700">00% off</span>
         </div>
         <div className="flex justify-between items-center pt-3 pb-2">
-          <a
-            href="#"
+          <Link
+            href="/cart"
             className="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-center text-sm text-white rounded duration-300"
+            onClick={addToCart}
           >
             Add to Cart
-          </a>
+          </Link>
 
           <a
             href="#"
