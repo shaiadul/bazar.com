@@ -8,12 +8,12 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     const storedCartItems =
-      JSON.parse(sessionStorage.getItem("cartItems")) || [];
+      JSON.parse(localStorage.getItem("cartItems")) || [];
     setCartItems(storedCartItems);
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const handleQuantityChange = (productId, newQuantity) => {
