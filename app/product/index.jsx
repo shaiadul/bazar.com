@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import Card from "@/components/card";
+import Loading from "@/components/loading";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
   const [filterCategory, setFilterCategory] = useState("all");
@@ -28,7 +29,6 @@ const Products = () => {
 
   const handleSortChange = (criteria) => {
     if (sortBy === criteria) {
-      // If already sorting by the selected criteria, toggle the order
       setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
     } else {
       setSortBy(criteria);
@@ -64,15 +64,15 @@ const Products = () => {
     : null;
 
   return (
-    <section className="container mx-auto py-5 ">
+    <section className="container mx-auto py-5 px-5">
       <h1 className="font-serif">Fake Shop Product Page</h1>
-      <div className="flex flex-col lg:flex-row items-center justify-between my-5 text-teal-600 text-lg">
-        <div className="flex flex-wrap lg:flex-nowrap space-y-2 lg:space-y-0 lg:space-x-4">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-5 my-5 text-teal-600 text-lg">
+        <div className="flex flex-wrap lg:flex-nowrap space-y-2 lg:space-y-0 space-x-2 lg:space-x-4">
           <button
             onClick={() => handleSortChange("name")}
             className={`${
               sortBy === "name" && "font-bold"
-            } hover:underline cursor-pointer focus:outline-none`}
+            } hover:underline cursor-pointer focus:outline-none mt-2 md:mt-0 md:mb-2 lg:mb-0 lg:mr-4`}
           >
             Name {sortOrder === "asc" ? "↑" : "↓"}
           </button>
@@ -80,7 +80,7 @@ const Products = () => {
             onClick={() => handleSortChange("price")}
             className={`${
               sortBy === "price" && "font-bold"
-            } hover:underline cursor-pointer focus:outline-none`}
+            } hover:underline cursor-pointer focus:outline-none mb-2 lg:mb-0 lg:mr-4`}
           >
             Price {sortOrder === "asc" ? "↑" : "↓"}
           </button>
@@ -88,11 +88,12 @@ const Products = () => {
             onClick={() => handleSortChange("category")}
             className={`${
               sortBy === "category" && "font-bold"
-            } hover:underline cursor-pointer focus:outline-none`}
+            } hover:underline cursor-pointer focus:outline-none mb-2 lg:mb-0 lg:mr-4`}
           >
             Category {sortOrder === "asc" ? "↑" : "↓"}
           </button>
         </div>
+
         <div className="ml-4">
           <label htmlFor="categoryFilter">Filter by Category:</label>
           <select
@@ -116,7 +117,7 @@ const Products = () => {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 justify-center items-center gap-5 my-10">
           {filteredData &&

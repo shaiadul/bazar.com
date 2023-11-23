@@ -55,16 +55,15 @@ const Card = ({ product }) => {
           <span className="text-sm text-red-700">00% off</span>
         </div>
         <div className="flex justify-between items-center pt-3 pb-2">
-          <Link
-            href="/cart"
+          <button
             className="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-center text-sm text-white rounded duration-300"
             onClick={addToCart}
           >
             Add to Cart
-          </Link>
+          </button>
 
           <a
-            href="#"
+            href=""
             title="Add to Favorites"
             className={`${
               isFavorite ? "text-red-600" : "text-gray-500"
