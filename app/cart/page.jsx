@@ -4,6 +4,7 @@ import { useCart } from "../context/cart";
 
 const ShoppingCart = () => {
   const { cartItems, setCartItems } = useCart();
+  const [deliveryLocation, setDeliveryLocation] = useState("insideDhaka");
 
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -30,17 +31,27 @@ const ShoppingCart = () => {
     );
   };
 
+  const calculateDeliveryCharge = () => {
+    const deliveryCharges = {
+      insideDhaka: 0, // inside Dhaka
+      outsideDhaka: 5.99, //outside Dhaka
+    };
+
+    return deliveryCharges[deliveryLocation];
+  };
+
+  const handleCheckout = () => {
+    const totalWithDelivery = calculateTotalPrice() + calculateDeliveryCharge();
+    console.log("Checkout button clicked");
+    console.log("Total with delivery:", totalWithDelivery.toFixed(2));
+  };
+
   const calculateTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
   };
-
-  const handleCheckout = () => {
-    console.log("Checkout button clicked");
-  };
-
   return (
     <div className="h-screen bg-gray-100 pt-20">
       <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
@@ -97,7 +108,7 @@ const ShoppingCart = () => {
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
+                      className="h-6 w-6 cursor-pointer text-red-600 hover:text-red-400 duration-300"
                       onClick={() => handleRemoveItem(item.id)}
                     >
                       <path
@@ -121,19 +132,43 @@ const ShoppingCart = () => {
             <p className="text-gray-700">Income tax</p>
             <p className="text-gray-700">$2.00</p>
           </div>
+          <div className="flex justify-between mb-2 my-2">
+            <p className="text-gray-700">Delivery Location</p>
+            <select
+              className="outline-none p-1 text-teal-600"
+              value={deliveryLocation}
+              onChange={(e) => setDeliveryLocation(e.target.value)}
+            >
+              <option value="insideDhaka">Inside Dhaka</option>
+              <option value="outsideDhaka">Outside Dhaka</option>
+            </select>
+          </div>
+          <div className="flex justify-between">
+            <p className="text-gray-700">Delivery Charges</p>
+            <p className="text-gray-700">
+              ${calculateDeliveryCharge().toFixed(2)}
+            </p>
+          </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div>
               <p className="mb-1 text-lg font-bold">
-                ${(calculateTotalPrice() + 2.0).toFixed(2)} USD
+                $
+                {(
+                  calculateTotalPrice() +
+                  calculateDeliveryCharge() +
+                  2.0
+                ).toFixed(2)}{" "}
+                USD
               </p>
               <p className="text-sm text-gray-700">including VAT</p>
             </div>
           </div>
+
           <button
             onClick={handleCheckout}
-            className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+            className="mt-6 w-full rounded-md bg-teal-600 py-1.5 font-medium text-blue-50 hover:bg-teal-500 duration-500"
           >
             Check out
           </button>
